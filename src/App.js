@@ -1,31 +1,39 @@
 import React from 'react';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.action';
 
 // components
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/signin-and-signup/signin-and-signup.page';
 import HomePage from './pages/home/home.page';
 import ShopPage from './pages/shop/shop.page';
-import { auth } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
 
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state =  {
-      currentUser: null
-    }
-  }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user})
+    const {setCurrentUser} = this.props
 
-      console.log(user)
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
+      if(authUser) {
+        const userSnapShot= await createUserProfileDocument(authUser);
+  
+        if (userSnapShot.exists()) {
+          setCurrentUser({
+            id: userSnapShot.id,
+              ...userSnapShot.data(),
+          })
+        } else {
+          console.log("No such document!");
+        }
+      } else {
+        setCurrentUser(authUser)
+      }
     })
   }
 
@@ -36,11 +44,11 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header/>
         <Routes>
-          <Route exact path="" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route exact path="/shop" element={<ShopPage />} />
-          <Route exact path="/signin" element={<SignInAndSignUpPage />} />
+          <Route exact path="/signin" element={this.props.currentUser ? <Navigate to="/" /> : <SignInAndSignUpPage />} />
         </Routes>
       </div>
     );
@@ -48,4 +56,14 @@ class App extends React.Component {
   
 }
 
-export default App;
+const mapStateToProps = ({user}) => (
+  {
+      currentUser: user.currentUser
+  }
+)
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
