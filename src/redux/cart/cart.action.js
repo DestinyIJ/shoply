@@ -13,6 +13,13 @@ export const addCartItem = (item) => (
     }
 )
 
+export const reduceCartItemCount = (item) => (
+    {
+        type: cartActionTypes.REDUCE_CART_ITEM_COUNT,
+        payload: item
+    }
+)
+
 export const removeCartItem = (item) => (
     {
         type: cartActionTypes.REMOVE_CART_ITEM,
