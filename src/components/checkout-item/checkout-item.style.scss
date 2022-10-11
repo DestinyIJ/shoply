@@ -21,6 +21,7 @@
     .price {
       width: 23%;
     }
+
   
     .quantity-container {
         width: 50%;
@@ -45,4 +46,46 @@
       cursor: pointer;
     }
   }
-  
+
+@media (max-width: 768px) {
+  .checkout-item {
+      width: 90vw;
+      margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 428px) {
+  .checkout-item {
+    width: 100vw;
+    font-size: 14px;
+  }
+
+  .image-container {
+    width: 20%;
+    padding-right: 10px;
+
+  }
+  .name,
+  .quantity,
+  .price {
+    width: 18%;
+  }
+
+
+  .quantity-container {
+      padding-left: 15px;
+      width: 50%;
+      display: flex;
+      justify-content: space-around;
+
+    
+    .value {
+      margin: 1px 10px;
+    }
+  }
+
+  .remove-button {
+    padding-left: 0;
+    padding-right: 18px;
+  }
+}

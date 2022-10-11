@@ -56,4 +56,23 @@
       }
     }
   }
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .collection-item {
+      width: 48%;
+      margin-bottom: 10px;
+  }
+}
+
+  $breakpoint-mobile: 428px;
+  @media (max-width: $breakpoint-mobile) {
+      .collection-item {
+          width: 100%;
+          margin-bottom: 10px;
+      }
+      
+  }
+
+
   

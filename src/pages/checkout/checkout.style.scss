@@ -22,9 +22,17 @@
         }
       }
     }
+
+    @media (max-width: 768px) {
+      .checkout-header {
+          width: 90vw;
+          margin-bottom: 10px;
+      }
+    }
   
     .total {
       display: flex;
+      align-self: flex-end;
       margin-top: 30px;
       margin-left: auto;
       font-size: 36px;
@@ -47,5 +55,35 @@
       justify-content: flex-end;
       align-items: flex-end;
     }
+}
+
+
+@media (max-width: 428px) {
+  .checkout-page {
+    width: 85vw;
+    margin: 0;
+    font-size: 14px;
+
+    .checkout-header {
+      width: 100vw;
+  
+      .header-block {
+        display: none;
+      }
+    }
+
+  
+    .total {
+      font-size: 18px;
+      padding-bottom: 0;
+      margin-top: 10px;
+    }
+
+    .test-warning {
+      width: fit-content;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+}
 }
   

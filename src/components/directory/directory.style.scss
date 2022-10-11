@@ -4,3 +4,19 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+    .directory-menu {
+        width: 85vw;
+    }
+    
+}
+
+$breakpoint-mobile: 428px;
+@media (max-width: $breakpoint-mobile) {
+    .directory-menu {
+        flex-direction: column;
+    }
+    
+}

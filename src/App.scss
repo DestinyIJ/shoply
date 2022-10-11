@@ -3,6 +3,13 @@ body {
     padding: 20px 60px;
 }
 
+$breakpoint-mobile: 428px;
+@media (max-width: $breakpoint-mobile) {
+    body {
+        padding: 20px 25px;
+    }
+}
+
 :any-link {
     text-decoration: none;
     text-transform: uppercase;
