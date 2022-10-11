@@ -24,9 +24,28 @@
     }
   
     .total {
+      display: flex;
       margin-top: 30px;
       margin-left: auto;
       font-size: 36px;
+    }
+
+    .test-warning {
+      text-align: center;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: red;
+    }
+
+    .pay-now {
+      width: 100%;
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
     }
 }
   
