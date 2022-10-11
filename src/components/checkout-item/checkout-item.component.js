@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { removeCartItem, addCartItem, reduceCartItemCount } from "../../redux/cart/cart.action";
 import "./checkout-item.style.scss";
 

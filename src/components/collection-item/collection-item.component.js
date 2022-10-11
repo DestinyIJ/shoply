@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { addCartItem } from "../../redux/cart/cart.action";
 
 
-const CollectionItem =  ({ item, addCartItem }) => {
+export const CollectionItem =  ({ item, addCartItem }) => {
     const {name, imageUrl, price} = item
 
     return (
