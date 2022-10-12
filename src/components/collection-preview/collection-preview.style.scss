@@ -15,3 +15,31 @@
     }
       
 }
+
+$breakpoint-tablet: 768px;
+@media (max-width: $breakpoint-tablet) {
+  .collection-preview {
+    // width: 100%;
+  
+    .title {
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+  
+    .preview {
+
+      flex-direction: column;
+    }
+      
+}
+}
+
+  $breakpoint-mobile: 428px;
+  @media (max-width: $breakpoint-mobile) {
+      .preview {
+          width: 80vw;
+          flex-direction: column;
+          margin-bottom: 10px;
+      }
+      
+  }

@@ -2,13 +2,3 @@
     display: flex;
     flex-direction: column;
 }
-
-$breakpoint-tablet: 428px;
-  @media (max-width: $breakpoint-tablet) {
-      .collections-overview {
-        margin: 0;
-          width: 80vw;
-          
-      }
-      
-  }
