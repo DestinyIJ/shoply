@@ -12,7 +12,9 @@ if(process.env.NODE_ENV === "development"){
 
 export const store = configureStore({
     reducer: rootReducer, 
-    middleware: middlewares
+    middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(...middlewares),
+    // middleware: middlewares
 })
 
 export const persistor = persistStore(store)

@@ -32,6 +32,8 @@
   
     .total {
       display: flex;
+      justify-content: space-between;
+      gap: 12px;
       align-self: flex-end;
       margin-top: 30px;
       margin-left: auto;
@@ -39,7 +41,6 @@
     }
 
     .test-warning {
-      text-align: center;
       margin-top: 40px;
       display: flex;
       align-items: center;
@@ -70,19 +71,6 @@
       .header-block {
         display: none;
       }
-    }
-
-  
-    .total {
-      font-size: 18px;
-      padding-bottom: 0;
-      margin-top: 10px;
-    }
-
-    .test-warning {
-      width: fit-content;
-      font-size: 14px;
-      margin-top: 20px;
     }
 }
 }

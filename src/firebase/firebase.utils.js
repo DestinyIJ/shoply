@@ -1,7 +1,6 @@
-import firebase from 'firebase/compat/app'
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, getDoc, setDoc, writeBatch, onSnapshot, query } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBIUmO0DaUyxJ2W7oWQM3CIsSzsDf6G4lI",
@@ -19,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-
+export { db, collection, doc, getDoc, setDoc, writeBatch, onSnapshot, query } 
 
 export const auth = getAuth()
 
@@ -30,12 +29,10 @@ provider.addScope('email');
 
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
-
 export const createUserProfileDocument = async (authUser, additionalData) => {
   if(!authUser) return;
 
   const usersRef = collection(db, "users");
-  console.log('auth user,',authUser)
   const userRef = doc(usersRef, authUser.uid);
   const snapShot = await getDoc(userRef);
   console.log('snapshot', snapShot.data())
@@ -57,4 +54,34 @@ export const createUserProfileDocument = async (authUser, additionalData) => {
   return snapShot;
 }
 
-export default firebase;
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const batch = writeBatch(db)
+  
+  const collectionRef = collection(db, collectionKey)
+
+  objectsToAdd.forEach(obj => {
+    const newDocRef = doc(collectionRef)
+    batch.set(newDocRef, obj)
+  });
+
+  return await batch.commit()
+}
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollections = collections.docs.map((doc) => {
+    const { title, items } = doc.data()
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    }
+  })
+
+  return transformedCollections.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator
+  }, {})
+}
+

@@ -1,0 +1,6 @@
+const shopActiontypes = {
+    FETCH_COLLECTIONS_SUCCESS: "FETCH_COLLECTION_SUCCESS",
+    FETCH_COLLECTIONS_FAILURE: "FETCH_COLLECTION_FAILURE",
+}
+
+export default shopActiontypes

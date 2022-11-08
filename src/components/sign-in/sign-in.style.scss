@@ -1,5 +1,5 @@
 .sign-in {
-    min-width: 380px;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
 
@@ -18,5 +18,11 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 428px) {
+    .sign-in {
+        width: 320px;
     }
 }
