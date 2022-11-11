@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, collection, doc, getDoc, setDoc, writeBatch, onSnapshot, query } from "firebase/firestore";
+import { getFirestore, collection, doc, getDoc, setDoc, writeBatch, onSnapshot, query, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBIUmO0DaUyxJ2W7oWQM3CIsSzsDf6G4lI",
@@ -18,16 +18,16 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { db, collection, doc, getDoc, setDoc, writeBatch, onSnapshot, query } 
+export { db, collection, doc, getDoc, getDocs, setDoc, writeBatch, onSnapshot, query } 
 
 export const auth = getAuth()
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account'});
-provider.addScope('profile'); 
-provider.addScope('email');
+export const GoogleProvider = new GoogleAuthProvider();
+GoogleProvider.setCustomParameters({ prompt: 'select_account'});
+GoogleProvider.addScope('profile'); 
+GoogleProvider.addScope('email');
 
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const signInWithGoogle = () => signInWithPopup(auth, GoogleProvider);
 
 export const createUserProfileDocument = async (authUser, additionalData) => {
   if(!authUser) return;
@@ -35,7 +35,6 @@ export const createUserProfileDocument = async (authUser, additionalData) => {
   const usersRef = collection(db, "users");
   const userRef = doc(usersRef, authUser.uid);
   const snapShot = await getDoc(userRef);
-  console.log('snapshot', snapShot.data())
 
   if(!snapShot.exists()) {
     const { displayName, email } = authUser;
@@ -54,17 +53,13 @@ export const createUserProfileDocument = async (authUser, additionalData) => {
   return snapShot;
 }
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
-  const batch = writeBatch(db)
-  
-  const collectionRef = collection(db, collectionKey)
-
-  objectsToAdd.forEach(obj => {
-    const newDocRef = doc(collectionRef)
-    batch.set(newDocRef, obj)
-  });
-
-  return await batch.commit()
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth)
+    }, reject)
+  })
 }
 
 export const convertCollectionsSnapshotToMap = (collections) => {
@@ -85,3 +80,16 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {})
 }
 
+//  adding collections to firebase from file
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const batch = writeBatch(db)
+  
+  const collectionRef = collection(db, collectionKey)
+
+  objectsToAdd.forEach(obj => {
+    const newDocRef = doc(collectionRef)
+    batch.set(newDocRef, obj)
+  });
+
+  return await batch.commit()
+}

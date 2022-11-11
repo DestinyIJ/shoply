@@ -4,11 +4,14 @@ import { selectCartItems, selectCartTotal } from "../../redux/cart/cart.selector
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import { createStructuredSelector } from "reselect";
 import StripeCheckoutButton from "../../components/stripe/stripe-button.component";
+import { selectCurrentUser } from "../../redux/user/user.selector";
+import { Link } from "react-router-dom";
+import CustomButton from "../../components/custom-button/custom-button.component";
 
 
 import './checkout.style.scss'
 
-const CheckoutPage = ({ cartItems, cartTotal }) => {
+const CheckoutPage = ({ cartItems, cartTotal, currentUser }) => {
     const headerBlocks = ["Product", "Description", "Quantity", "Price", "Remove"]
     return (
         <div className="checkout-page">
@@ -31,9 +34,19 @@ const CheckoutPage = ({ cartItems, cartTotal }) => {
             <div className="total">
                 <span>TOTAL: </span> <span> ${cartTotal}</span>
             </div>
-            <div className="pay-now">
+
+            <div>
                 {
-                    cartTotal > 0 ? <StripeCheckoutButton price={cartTotal} /> : null
+                    currentUser ? 
+                        <div className="pay-now">
+                            {
+                                cartTotal > 0 ? <StripeCheckoutButton price={cartTotal} /> : null
+                            }
+                        </div>
+                        :
+                        <Link to="/signin">
+                                <CustomButton type='button' >Sign-in to pay</CustomButton>
+                        </Link>
                 }
             </div>
             <div className="test-warning">
@@ -50,7 +63,8 @@ const CheckoutPage = ({ cartItems, cartTotal }) => {
 const mapStateToProps = createStructuredSelector(
     {
         cartItems : selectCartItems,
-        cartTotal : selectCartTotal
+        cartTotal : selectCartTotal,
+        currentUser: selectCurrentUser
     }
 )
 export default connect(mapStateToProps)(CheckoutPage)

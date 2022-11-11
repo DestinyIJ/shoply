@@ -2,10 +2,10 @@ import React from 'react';
 import './App.scss';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.action';
 import { selectCurrentUser } from './redux/user/user.selector';
 import { createStructuredSelector } from 'reselect';
 import { selectCollectionsForPreview } from './redux/shop/shop.selector';
+import { checkUserSession } from './redux/user/user.action';
 
 
 // components
@@ -15,40 +15,18 @@ import HomePage from './pages/home/home.page';
 import ShopPage from './pages/shop/shop.page';
 import CheckoutPage from './pages/checkout/checkout.page';
 import CollectionPageContainer from './pages/collection/collection-page.container';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 
 
 
 class App extends React.Component {
-  unsubscribeFromAuth = null;
-
   componentDidMount() {
-    const {setCurrentUser} = this.props
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async authUser => {
-      if(authUser) {
-        const userSnapShot= await createUserProfileDocument(authUser);
-  
-        if (userSnapShot.exists()) {
-          setCurrentUser({
-            id: userSnapShot.id,
-              ...userSnapShot.data(),
-          })
-        } else {
-          console.log("No such document!");
-        }
-      } else {
-        setCurrentUser(authUser)
-      }
-    })
+    const { checkUserSession } = this.props
+    checkUserSession()
 
     // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
   }
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
 
   render () {
     return (
@@ -75,14 +53,9 @@ const mapStateToProps = createStructuredSelector(
   }
 )
 
-// const mapStateToProps = (state) => (
-//   {
-//       currentUser: selectCurrentUser(state)
-//   }
-// )
-
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 })
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { addCartItem } from "../../redux/cart/cart.action";
 
 
-export const CollectionItem =  ({ item, addCartItem }) => {
+export const CollectionItem =  ({ item, addCartItem}) => {
     const {name, imageUrl, price} = item
 
     return (
@@ -28,7 +28,7 @@ export const CollectionItem =  ({ item, addCartItem }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    addCartItem: item => dispatch(addCartItem(item)),
+    addCartItem: (item) => dispatch(addCartItem(item))
 })
 
 export default connect(null, mapDispatchToProps)(CollectionItem);

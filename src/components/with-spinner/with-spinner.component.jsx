@@ -2,20 +2,11 @@ import React from "react";
 
 import { SpinnerOverlay, SpinnerContainer } from "./with-spinner.styled";
 
-// const WithSpinner = WrappedComponent => ({ isLoading, ...otherProps }) => {
-//     return isLoading ? (
-//         <SpinnerOverlay>
-//             <SpinnerContainer /> 
-//         </SpinnerOverlay>
-//     ) : (
-//         <WrappedComponent {...otherProps} />
-//     )
-// }
 
 const WithSpinner = WrappedComponent => {
-    const Spinner = ({ isCollectionFetched, fetchCollectionStartAsync, ...otherProps }) => {
+    const Spinner = ({ isCollectionFetched, fetchCollectionStart, ...otherProps }) => {
         if(!isCollectionFetched) {
-            fetchCollectionStartAsync()
+            fetchCollectionStart()
         }
         
         return (
@@ -30,7 +21,6 @@ const WithSpinner = WrappedComponent => {
     }
     return Spinner
 }
-
 
 
 export default WithSpinner
