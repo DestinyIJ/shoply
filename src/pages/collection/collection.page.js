@@ -1,15 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import { useSelector } from "react-redux";
 import { selectShopCollections } from "../../redux/shop/shop.selector";
 import CollectionItem from "../../components/collection-item/collection-item.component";
 
 import { CollectionContainer, TitleContainer, ItemsContainer } from "./collection.styled";
 
-const CollectionPage = ({collections}) => {
+const CollectionPage = () => {
     const { collectionId } = useParams()
-    const collection = collections[collectionId]
+    const collection = useSelector(selectShopCollections[collectionId])
     const { title, items } = collection
 
 
@@ -27,9 +26,4 @@ const CollectionPage = ({collections}) => {
     )
 }
 
-
-const mapStateToProps = createStructuredSelector({
-    collections: selectShopCollections
-})
-
-export default connect(mapStateToProps)(CollectionPage)
+export default CollectionPage

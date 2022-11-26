@@ -4,18 +4,15 @@ import { ShopContainer } from "./shop.styled";
 import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 
 
-class ShopPage  extends React.Component {
-   
-    render() {
-        return (
-            <ShopContainer>
-                <Routes>
-                    <Route path="" element={<CollectionsOverviewContainer />} />
-                </Routes>
-                <Outlet />
-            </ShopContainer>
-        )
-    }
+const ShopPage = () => {
+    return (
+        <ShopContainer>
+            <Routes>
+                <Route path="" element={<CollectionsOverviewContainer />} />
+            </Routes>
+            <Outlet />
+        </ShopContainer>
+    )
 }
 
 
