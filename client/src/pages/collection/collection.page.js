@@ -8,8 +8,8 @@ import { CollectionContainer, TitleContainer, ItemsContainer } from "./collectio
 
 const CollectionPage = () => {
     const { collectionId } = useParams()
-    const collection = useSelector(selectShopCollections[collectionId])
-    const { title, items } = collection
+    const collections = useSelector(selectShopCollections)
+    const { title, items } = collections[collectionId]
 
 
     return (

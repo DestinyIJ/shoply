@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import './App.scss';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selector';
-import { createStructuredSelector } from 'reselect';
-import { selectCollectionsForPreview } from './redux/shop/shop.selector';
 import { checkUserSession } from './redux/user/user.action';
 
 
