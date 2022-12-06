@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useContext}  from "react";
 import { CollectionItemContainer, CollectionFooterContainer,
      ImageContainer, NameContainer, PriceContainer,
     CustomButtonContainer  } from "./collection-item.styled";
 
+import { CartContext } from "../../provider/cart/cart.provider";
 
-import { useDispatch } from "react-redux";
-import { addCartItem } from "../../redux/cart/cart.action";
 
 
 export const CollectionItem =  ({ item }) => {
-    const dispatch = useDispatch()
+    const { addItem } = useContext(CartContext)
     const {name, imageUrl, price} = item
 
     return (
@@ -23,7 +22,7 @@ export const CollectionItem =  ({ item }) => {
                 <NameContainer>{name}</NameContainer>
                 <PriceContainer>{price}</PriceContainer>
             </CollectionFooterContainer>
-            <CustomButtonContainer onClick={() => dispatch(addCartItem(item)) } inverted>ADD TO CART</CustomButtonContainer>
+            <CustomButtonContainer onClick={() => addItem(item) } inverted>ADD TO CART</CustomButtonContainer>
         </CollectionItemContainer> 
     )
 }

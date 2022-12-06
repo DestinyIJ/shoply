@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import CustomButton from "../custom-button/custom-button.component";
 import CartItem from "../cart-item/cart-item.component";
-import { useSelector, useDispatch } from "react-redux";
-import { selectCartItems } from "../../redux/cart/cart.selectors";
-import { toggleCartHidden } from "../../redux/cart/cart.action";
 import { useNavigate } from "react-router-dom";
 import { CartDropdowncontainer, CartItemsContainer, EmptyMessageContainer  } from "./cart-dropdown.styled";
+import { CartContext } from "../../provider/cart/cart.provider";
 
 const CartDropdown = () => {
-    const dispatch = useDispatch()
-    const cartItems = useSelector(selectCartItems)
+    const { cartItems, toggleHidden } = useContext(CartContext)
     const navigate = useNavigate()
 
     return (
@@ -27,7 +24,7 @@ const CartDropdown = () => {
             </CartItemsContainer>
             <CustomButton onClick={() => {
                 navigate("/checkout")
-                dispatch(toggleCartHidden())
+                toggleHidden()
             }} >GO TO CHECKOUT</CustomButton>
     
         </CartDropdowncontainer>

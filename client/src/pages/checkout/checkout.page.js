@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import { selectCartItems, selectCartTotal } from "../../redux/cart/cart.selectors";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import StripeCheckoutButton from "../../components/stripe/stripe-button.component";
 import { selectCurrentUser } from "../../redux/user/user.selector";
 import { Link } from "react-router-dom";
 import CustomButton from "../../components/custom-button/custom-button.component";
+import { CartContext } from "../../provider/cart/cart.provider";
 
 
 import './checkout.style.scss'
 
 const CheckoutPage = () => {
-    const cartItems = useSelector(selectCartItems)
-    const cartTotal = useSelector(selectCartTotal)
+    const { cartItems, cartItemsTotal} = useContext(CartContext)
     const currentUser = useSelector(selectCurrentUser)
 
     const headerBlocks = ["Product", "Description", "Quantity", "Price", "Remove"]
@@ -35,7 +34,7 @@ const CheckoutPage = () => {
                     ))
             }
             <div className="total">
-                <span>TOTAL: </span> <span> ${cartTotal}</span>
+                <span>TOTAL: </span> <span> ${cartItemsTotal}</span>
             </div>
 
             <div>
@@ -43,7 +42,7 @@ const CheckoutPage = () => {
                     currentUser ? 
                         <div className="pay-now">
                             {
-                                cartTotal > 0 ? <StripeCheckoutButton price={cartTotal} /> : null
+                                cartItemsTotal > 0 ? <StripeCheckoutButton price={cartItemsTotal} /> : null
                             }
                         </div>
                         :
